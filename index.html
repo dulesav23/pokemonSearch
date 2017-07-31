@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html ng-app="pokemonSearch">
+<head>
+    <title>Pokemon Search</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge">
+    <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0' name='viewport' />
+    <meta charset="UTF-8">
+    <!-- MAIN ANGULAR FILE -->
+    <script src="assets/Angular/angular.min.js"></script>
+
+    <!-- MAIN APP FILE -->
+    <script src="assets/Angular/ui-bootstrap-tpls-2.5.0.min.js"></script>
+
+    <!-- JQUERY, BOOTSTRAP -->
+    <script src="assets/jQuery/jquery-3.1.1.min.js"></script>
+    <script src="assets/Bootstrap/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="assets/Bootstrap/bootstrap.min.css" />
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/6.6.5/sweetalert2.min.js"></script>
+    <!-- CSS -->
+    <link rel="stylesheet" href="assets/css/style.css" />
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/6.6.5/sweetalert2.min.css">
+</head>
+<body ng-controller="pokemonSearchController">
+	<div class="loading" ng-show="loading"></div>
+	<div class="container topped">
+		<div class="row">
+			<div class="col-md-6">
+				<div id="custom-search-input">
+					<div class="input-group col-md-12">
+						<input type="text" class="form-control input-lg" ng-model="searchInput" placeholder="Search by Name or ID.." />
+						<span class="input-group-btn">
+							<button ng-click="searchPokemonButton()" class="btn btn-info btn-lg" type="button"><i class="glyphicon glyphicon-search"></i>
+							</button>
+						</span>
+					</div>
+				</div>
+			</div>
+			<div class="col-md-6">
+				<div id="custom-search-input">
+					<div class="input-group col-md-12">
+						<input type="text" class="form-control input-lg" ng-model="searchInputColor" placeholder="Search By Color.." />
+						<span class="input-group-btn">
+							<button ng-click="searchPokemonbyColorButton()" class="btn btn-info btn-lg" type="button"><i class="glyphicon glyphicon-search"></i>
+							</button>
+						</span>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	<div class="container topped" ng-show="loadingDone">
+		<div class="col-md-offset-4 col-md-4 col-md-offset-4">
+			<div class="profile-card text-center">
+				<img class="img-responsive" ng-src="{{pokemonImageBackground}}">
+				<div class="profile-info">
+					<img class="profile-pic" ng-src="{{pokemonImage}}">
+					<h2 class="hvr-underline-from-center">{{name}}<span ng-repeat="types in pokemonTypes">{{types.type.name}}</span></h2>
+					<div class="attributes">Base Experience: {{baseExp}} Xp</div>
+					<div class="attributes">Weight: {{pokemonWeight}} Kg</div>
+					<div class="attributes">Height: {{pokemonHeight}} Inch</div><hr>
+					<p class="attributes">Abilities</p>
+					<div class="attributes"><span ng-repeat="abilities in pokemonAbilities">{{abilities.ability.name}}</span></div>
+				</div>
+			</div>
+			<div class="centered"><button type="button" class="btn btn-info" ng-click="isCollapsed = !isCollapsed">View Moves</button>
+			</div>
+			<hr>
+			<div uib-collapse="isCollapsed">
+				<div class="well well-lg">
+					<table class="table centered">
+						<tbody>
+							<tr ng-repeat="moves in pokemonMoves">
+								<td>{{moves.move.name}}</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	<!-- Display Results by Color -->
+	<div class="container topped" ng-show="loadingColorDone">
+		<ul ng-repeat="pokNames in pokemonNames | orderBy:'name'" class="list-group">
+			<li class="list-group-item">{{pokNames.name}}</li>
+		</ul>				
+	</div>
+    <script src="js/app.js"></script>
+    <!-- CONTROLLERS -->
+    <script src="controllers/mainController.js"></script>
+</body>
+
+</html>
